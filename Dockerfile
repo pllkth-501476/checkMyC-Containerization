@@ -28,3 +28,12 @@ RUN apt-get update && \
         curl \
         ca-certificates && \
     rm -rf /var/lib/apt/lists/*
+# ----------------------------
+# Install uv
+# ----------------------------
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+# ----------------------------
+# Copy dependency files
+# ----------------------------
+COPY pyproject.toml uv.lock ./
