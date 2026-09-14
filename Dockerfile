@@ -1,39 +1,34 @@
+# --------------------------------------------------
+# Base Image
+# --------------------------------------------------
 FROM python:3.12-slim
 
-# ----------------------------
-# Image metadata
-# ----------------------------
+# --------------------------------------------------
+# Image Metadata
+# --------------------------------------------------
 LABEL maintainer="Kavitha Pillala"
 LABEL project="checkMyC Containerization"
+LABEL description="Containerized C Program Evaluation Framework"
 LABEL version="1.0"
-LABEL description="Secure and reproducible containerized framework for automated C program evaluation"
 
-# ----------------------------
-# Python configuration
-# ----------------------------
+# --------------------------------------------------
+# Python Configuration
+# --------------------------------------------------
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-# ----------------------------
-# Working directory
-# ----------------------------
+# --------------------------------------------------
+# Working Directory
+# --------------------------------------------------
 WORKDIR /app
 
-# ----------------------------
-# Install Linux dependencies
-# ----------------------------
+# --------------------------------------------------
+# Install Linux Runtime Dependencies
+# --------------------------------------------------
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         gcc \
+        git \
         curl \
         ca-certificates && \
     rm -rf /var/lib/apt/lists/*
-# ----------------------------
-# Install uv
-# ----------------------------
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-# ----------------------------
-# Copy dependency files
-# ----------------------------
-COPY pyproject.toml uv.lock ./
