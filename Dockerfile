@@ -32,3 +32,7 @@ RUN apt-get update && \
         curl \
         ca-certificates && \
     rm -rf /var/lib/apt/lists/*
+# --------------------------------------------------
+# Install uv
+# --------------------------------------------------
+COPY --from=ghcr.io/astral-sh/uv:0.12.1 /uv /uvx /bin/
