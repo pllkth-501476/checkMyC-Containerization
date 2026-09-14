@@ -32,7 +32,33 @@ RUN apt-get update && \
         curl \
         ca-certificates && \
     rm -rf /var/lib/apt/lists/*
+
 # --------------------------------------------------
 # Install uv
 # --------------------------------------------------
 COPY --from=ghcr.io/astral-sh/uv:0.12.1 /uv /uvx /bin/
+
+# --------------------------------------------------
+# Copy Python Dependency Files
+# --------------------------------------------------
+COPY pyproject.toml uv.lock ./
+
+# --------------------------------------------------
+# Install Runtime Python Dependencies
+# --------------------------------------------------
+RUN uv sync --frozen --no-dev --no-install-project
+
+# --------------------------------------------------
+# Use Project Virtual Environment
+# --------------------------------------------------
+ENV PATH="/app/.venv/bin:$PATH"
+
+# --------------------------------------------------
+# Copy Application Source
+# --------------------------------------------------
+COPY src ./src
+
+# --------------------------------------------------
+# Install checkMyC Project
+# --------------------------------------------------
+RUN uv sync --frozen --no-dev
