@@ -12,10 +12,13 @@ dependencies = [
     "google-genai>=1.48.0",
     "pandas",
     "scipy",
+    "pvcheck",
 ]
 
 [project.scripts]
 checkmyc = "checkmyc.__main__:main"
+[tool.uv.sources]
+pvcheck = { path = "third_party/pvcheck" }
 
 [tool.uv]
 package = true

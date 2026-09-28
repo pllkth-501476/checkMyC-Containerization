@@ -1,64 +1,52 @@
-# --------------------------------------------------
 # Base Image
-# --------------------------------------------------
 FROM python:3.12-slim
 
-# --------------------------------------------------
 # Image Metadata
-# --------------------------------------------------
 LABEL maintainer="Kavitha Pillala"
 LABEL project="checkMyC Containerization"
 LABEL description="Containerized C Program Evaluation Framework"
 LABEL version="1.0"
 
-# --------------------------------------------------
 # Python Configuration
-# --------------------------------------------------
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-# --------------------------------------------------
 # Working Directory
-# --------------------------------------------------
 WORKDIR /app
 
-# --------------------------------------------------
 # Install Linux Runtime Dependencies
-# --------------------------------------------------
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         gcc \
+        libc6-dev \
         git \
         curl \
         ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# --------------------------------------------------
 # Install uv
-# --------------------------------------------------
 COPY --from=ghcr.io/astral-sh/uv:0.12.1 /uv /uvx /bin/
 
-# --------------------------------------------------
 # Copy Python Dependency Files
-# --------------------------------------------------
 COPY pyproject.toml uv.lock ./
 
-# --------------------------------------------------
+# Copy Local pvcheck Dependency
+COPY third_party/pvcheck ./third_party/pvcheck
+
 # Install Runtime Python Dependencies
-# --------------------------------------------------
 RUN uv sync --frozen --no-dev --no-install-project
 
-# --------------------------------------------------
 # Use Project Virtual Environment
-# --------------------------------------------------
 ENV PATH="/app/.venv/bin:$PATH"
 
-# --------------------------------------------------
 # Copy Application Source
-# --------------------------------------------------
 COPY src ./src
 
-# --------------------------------------------------
 # Install checkMyC Project
-# --------------------------------------------------
 RUN uv sync --frozen --no-dev
+
+# Copy Application Configuration
+COPY config.toml ./
+
+# Copy Evaluation Resources
+COPY resources ./resources

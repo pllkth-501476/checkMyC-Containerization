@@ -1,6 +1,4 @@
-# -----------------------------
 #  Project-specific exclusions
-# -----------------------------
 /resources/sources/*
 /resources/*.txt
 !/resources/sources/prova.c
@@ -44,9 +42,7 @@ prova_ollama.json
 .ruff_cache
 .python-version
 
-# -----------------------------
 #  Python build and runtime
-# -----------------------------
 __pycache__/
 *.py[cod]
 *.pyo
@@ -57,9 +53,7 @@ __pycache__/
 *.json
 *.html
 
-# -----------------------------
 #  Virtual environments
-# -----------------------------
 .venv/
 venv/
 env/
@@ -67,18 +61,14 @@ env/
 .uv/
 .uv-cache/
 
-# -----------------------------
 #  IDE and system files
-# -----------------------------
 .idea/
 .vscode/
 *.iml
 .DS_Store
 Thumbs.db
 
-# -----------------------------
 #  Distribution and build dirs
-# -----------------------------
 build/
 dist/
 .eggs/
